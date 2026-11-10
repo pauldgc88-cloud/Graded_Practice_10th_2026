@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Graded_Practice_10th_2026</title>
+<style>
+:root{--bg:#12161c;--card:#1b222c;--text:#e8edf3;--muted:#9fb0c3;--border:#2d3947;--accent:#5aa2ff;--accent-text:#0b1220;--input:#0f141a;--bad:#ff6b6b}
+[data-theme="light"]{--bg:#f2f5f9;--card:#ffffff;--text:#16202b;--muted:#51627a;--border:#cfd8e3;--accent:#1f6feb;--accent-text:#ffffff;--input:#ffffff;--bad:#d1242f}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:17px;line-height:1.5;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+input,select{-webkit-user-select:text;user-select:text}
+#app{max-width:880px;margin:0 auto;padding:28px 18px 80px}
+.topbar{display:flex;justify-content:flex-end;margin-bottom:8px}
+button{font:inherit;cursor:pointer}
+.toggle{background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:999px;padding:6px 16px;font-size:15px}
+h1{font-size:28px;margin:6px 0 14px}
+h2{font-size:21px;margin:34px 0 6px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin:14px 0}
+.card ul{margin:8px 0 0;padding-left:22px}
+.card li{margin:6px 0}
+.row{display:grid;grid-template-columns:1fr 1.35fr .65fr;gap:14px;margin:6px 0 18px}
+@media(max-width:640px){.row{grid-template-columns:1fr}}
+label.f{display:block;font-weight:600;font-size:15px;margin-bottom:5px}
+input[type=text],select,input[type=password]{width:100%;background:var(--input);color:var(--text);border:1px solid var(--border);border-radius:9px;padding:10px 12px;font:inherit}
+input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px}
+.primary{background:var(--accent);color:var(--accent-text);border:0;border-radius:10px;padding:11px 28px;font-weight:700}
+.primary:disabled{opacity:.6;cursor:default}
+.dir{margin:4px 0;color:var(--muted)}
+.q{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin:12px 0}
+.qt{margin:0 0 8px}
+.qt .num{font-weight:700;margin-right:6px}
+.opts{display:flex;flex-direction:column;gap:4px}
+.opts.inline{flex-direction:row;gap:22px;flex-wrap:wrap}
+.opts label{cursor:pointer;display:flex;align-items:center;gap:8px;padding:3px 0}
+.opts input{width:18px;height:18px;accent-color:var(--accent)}
+.inl{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.inl select{width:auto;min-width:190px}
+.inl input[type=text]{width:220px}
+.submitrow{display:flex;align-items:center;gap:16px;margin-top:30px}
+#err{color:var(--bad)}
+#overlay{position:fixed;inset:0;z-index:99999;background:rgba(5,8,12,.97);display:none;align-items:center;justify-content:center;padding:24px}
+#overlay.on{display:flex}
+#obox{max-width:620px;width:100%;background:#1b222c;color:#e8edf3;border:1px solid #2d3947;border-radius:16px;padding:30px}
+#obox p{font-size:21px;margin:0 0 20px;line-height:1.45}
+#obox .pw{display:flex;gap:12px}
+#obox input{background:#0f141a;color:#e8edf3;border-color:#2d3947}
+#obox button{background:#5aa2ff;color:#0b1220;border:0;border-radius:10px;padding:10px 24px;font-weight:700}
+.shake{animation:sh .35s}
+.bad{border-color:var(--bad)!important}
+@keyframes sh{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="topbar"><button type="button" class="toggle" id="themeBtn">Light mode</button></div>
+
+  <section id="page1">
+    <h1 id="title"></h1>
+    <p id="intro"></p>
+    <div class="card">
+      <ul>
+        <li>This practice/quiz is individual. If you are caught talking to someone during the practice, it will be voided.</li>
+        <li>You may use your book and/or worksheets done in class, but you cannot use anyone else's materials.</li>
+        <li>Read all the instructions well before answering.</li>
+        <li>Opening any other website or app is prohibited. Doing so will result in receiving a zero.</li>
+        <li>Once you start the quiz, it will be set to full-screen. Exiting full-screen is not allowed. If you exit, the teacher will have to input the password. If the password has to be input twice, you will receive a zero.</li>
+        <li>If you exit full-screen and leave this tab, for example by opening a new tab, you will receive a zero.</li>
+      </ul>
+    </div>
+    <form id="info" autocomplete="off">
+      <div class="row">
+        <div><label class="f" for="fn">First name</label><input type="text" id="fn" required></div>
+        <div><label class="f" for="sn">Surnames</label><input type="text" id="sn" required></div>
+        <div><label class="f" for="gr">Group</label><input type="text" id="gr" required></div>
+      </div>
+      <button type="submit" class="primary">Next</button>
+    </form>
+  </section>
+
+  <section id="page2" hidden>
+    <h1 id="title2"></h1>
+    <div id="exam"></div>
+    <div class="submitrow"><button type="button" class="primary" id="submitBtn">Submit quiz</button><span id="err"></span></div>
+  </section>
+</div>
+
+<div id="overlay" role="dialog" aria-modal="true">
+  <div id="obox">
+    <p id="omsg"></p>
+    <div class="pw"><input type="password" id="opw" required aria-label="Password" autocomplete="off"><button type="button" id="obtn">Continue</button></div>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+var DATA={"intro": "Each question is worth 1 point. No answer needs more than one word or one letter.", "parts": [{"num": 1, "title": "Part 1: Verbs (Questions 1-8)", "directions": ["Circle the letter of the best answer."], "questions": [{"n": 1, "id": "q1", "text": "In “The soup tastes salty,” the verb tastes is:", "options": ["A. transitive", "B. intransitive", "C. linking", "D. helping"]}, {"n": 2, "id": "q2", "text": "In “The children were playing outside,” the word were is a:", "options": ["A. linking verb", "B. helping verb", "C. transitive verb", "D. intransitive verb"]}, {"n": 3, "id": "q3", "text": "Which sentence contains a linking verb?", "options": ["A. The farmer grew corn.", "B. The birds flew south.", "C. She will bake bread.", "D. The weather grew cold."]}, {"n": 4, "id": "q4", "text": "In “The door opened slowly,” the verb opened is:", "options": ["A. intransitive", "B. transitive", "C. linking", "D. helping"]}, {"n": 5, "id": "q5", "text": "In “Our team won the final game,” the verb won is:", "options": ["A. linking", "B. helping", "C. transitive", "D. intransitive"]}, {"n": 6, "id": "q6", "text": "Which sentence uses has as a helping verb?", "options": ["A. She has two brothers.", "B. He has finished his homework.", "C. The dog has a new collar.", "D. My uncle has a red truck."]}, {"n": 7, "id": "q7", "text": "Which sentence contains a helping verb followed by an intransitive verb?", "options": ["A. Lisa will sing tonight.", "B. Tom is a good student.", "C. We have a test tomorrow.", "D. The kids are happy."]}, {"n": 8, "id": "q8", "text": "Which sentence contains a transitive verb?", "options": ["A. The boys ran fast.", "B. My phone rang.", "C. The river is wide.", "D. Our coach ran the practice."]}], "type": "mc"}, {"num": 2, "title": "Part 2: The Four Types of Sentences (Questions 9-13)", "directions": ["Write the letter of the correct sentence type in the blank. Letters can be used more than once.", "A. Declarative B. Interrogative C. Imperative D. Exclamatory"], "questions": [{"n": 9, "id": "q9", "text": "____ Be careful with that knife.", "options": ["A. Declarative", "B. Interrogative", "C. Imperative", "D. Exclamatory"]}, {"n": 10, "id": "q10", "text": "____ How brave you were!", "options": ["A. Declarative", "B. Interrogative", "C. Imperative", "D. Exclamatory"]}, {"n": 11, "id": "q11", "text": "____ I wonder where my phone is.", "options": ["A. Declarative", "B. Interrogative", "C. Imperative", "D. Exclamatory"]}, {"n": 12, "id": "q12", "text": "____ Is your brother coming to the party?", "options": ["A. Declarative", "B. Interrogative", "C. Imperative", "D. Exclamatory"]}, {"n": 13, "id": "q13", "text": "____ Our neighbors adopted a puppy.", "options": ["A. Declarative", "B. Interrogative", "C. Imperative", "D. Exclamatory"]}], "type": "match"}, {"num": 3, "title": "Part 3: Subjects and Predicates (Questions 14-18)", "directions": ["Write one word in the blank."], "questions": [{"n": 14, "id": "q14", "text": "Write the simple subject: The gray cat on the roof watched the birds. ________", "options": []}, {"n": 15, "id": "q15", "text": "Write the simple subject: Every Saturday, my uncle washes his truck. ________", "options": []}, {"n": 16, "id": "q16", "text": "Write the simple predicate (the verb): The little girl in the yellow dress sang beautifully. ________", "options": []}, {"n": 17, "id": "q17", "text": "Write the simple predicate (the verb): Heavy rain flooded the street last night. ________", "options": []}, {"n": 18, "id": "q18", "text": "Write the simple subject: Behind the house stand three tall palm trees. ________", "options": []}], "type": "short"}, {"num": 4, "title": "Part 4: Prepositions of Time and Place (Questions 19-23)", "directions": ["Choose the word that correctly completes the sentence."], "questions": [{"n": 19, "id": "q19", "text": "Our class begins ____ 7:15 a.m.", "options": ["A. on", "B. at", "C. in", "D. by"]}, {"n": 20, "id": "q20", "text": "The festival takes place ____ July.", "options": ["A. in", "B. at", "C. on", "D. of"]}, {"n": 21, "id": "q21", "text": "I will see you ____ Thursday morning.", "options": ["A. at", "B. in", "C. on", "D. to"]}, {"n": 22, "id": "q22", "text": "Wait for me ____ the entrance of the mall.", "options": ["A. in", "B. on", "C. of", "D. at"]}, {"n": 23, "id": "q23", "text": "My grandparents live ____ a village in the mountains.", "options": ["A. at", "B. in", "C. on", "D. by"]}], "type": "mc"}, {"num": 5, "title": "Part 5: Quantifiers (Questions 24-30)", "directions": ["Choose the word or phrase that correctly completes the sentence."], "questions": [{"n": 24, "id": "q24", "text": "How ____ homework do we have tonight?", "options": ["A. many", "B. few", "C. a few", "D. much"]}, {"n": 25, "id": "q25", "text": "Only ____ students passed the difficult exam, so the teacher was worried.", "options": ["A. few", "B. little", "C. much", "D. a little"]}, {"n": 26, "id": "q26", "text": "We have ____ time, so we can still finish the project.", "options": ["A. a few", "B. many", "C. a little", "D. few"]}, {"n": 27, "id": "q27", "text": "She has ____ friends in her class, so she always has someone to talk to.", "options": ["A. little", "B. a few", "C. much", "D. a little"]}, {"n": 28, "id": "q28", "text": "Too ____ cars on the road cause pollution.", "options": ["A. much", "B. little", "C. many", "D. a little"]}, {"n": 29, "id": "q29", "text": "There is very ____ juice left, so we need to buy more.", "options": ["A. few", "B. many", "C. a few", "D. little"]}, {"n": 30, "id": "q30", "text": "He doesn’t have ____ experience with computers.", "options": ["A. many", "B. much", "C. few", "D. several"]}], "type": "mc"}, {"num": 6, "title": "Part 6: Conditionals (Questions 31-35)", "directions": ["Choose the word or phrase that correctly completes the sentence."], "questions": [{"n": 31, "id": "q31", "text": "If you mix red and blue paint, you ____ purple.", "options": ["A. get", "B. would get", "C. got", "D. would have gotten"]}, {"n": 32, "id": "q32", "text": "If it rains tomorrow, the match ____ postponed.", "options": ["A. would be", "B. will be", "C. was", "D. would have been"]}, {"n": 33, "id": "q33", "text": "If I ____ taller, I would join the basketball team.", "options": ["A. am", "B. will be", "C. were", "D. would be"]}, {"n": 34, "id": "q34", "text": "If she had left earlier, she ____ the train.", "options": ["A. would have caught", "B. would catch", "C. will catch", "D. caught"]}, {"n": 35, "id": "q35", "text": "What would you do if you ____ the lottery?", "options": ["A. win", "B. will win", "C. won", "D. would win"]}], "type": "mc"}, {"num": 7, "title": "Part 7: TOEFL Error Selection (Questions 36-45)", "directions": ["Each sentence has four marked parts: A, B, C, and D. Choose the one part that is incorrect."], "questions": [{"n": 36, "id": "q36", "text": "Our family usually (A) travels to the coast (B) and stays (C) at a small hotel (D) on December.", "options": ["A", "B", "C", "D"]}, {"n": 37, "id": "q37", "text": "(A) Much people in my neighborhood (B) enjoy playing soccer, (C) so the park (D) is always busy.", "options": ["A", "B", "C", "D"]}, {"n": 38, "id": "q38", "text": "If I (A) had a bigger room, (B) I will (C) invite my friends (D) to stay over.", "options": ["A", "B", "C", "D"]}, {"n": 39, "id": "q39", "text": "The library (A) opens at 8:00 a.m., (B) but it (C) closes on 5:30 p.m. (D) every afternoon.", "options": ["A", "B", "C", "D"]}, {"n": 40, "id": "q40", "text": "(A) There is few traffic (B) on this road (C) early in (D) the morning.", "options": ["A", "B", "C", "D"]}, {"n": 41, "id": "q41", "text": "We bought (A) some tomatoes, (B) but the store (C) had only (D) a few cheese.", "options": ["A", "B", "C", "D"]}, {"n": 42, "id": "q42", "text": "The lecture (A) will be held (B) in the main hall (C) at Thursday (D) afternoon.", "options": ["A", "B", "C", "D"]}, {"n": 43, "id": "q43", "text": "I (A) don’t have (B) many time (C) today, so (D) I can’t join you.", "options": ["A", "B", "C", "D"]}, {"n": 44, "id": "q44", "text": "If the team (A) will practice (B) every day, it (C) will improve (D) before the final.", "options": ["A", "B", "C", "D"]}, {"n": 45, "id": "q45", "text": "If we (A) had known about the traffic, we (B) would (C) have left earlier (D) and arrive on time.", "options": ["A", "B", "C", "D"]}], "type": "error"}]};
+var QUIZ_TITLE="Graded_Practice_10th_2026",QUIZ_VERSION="1.0",ENDPOINT="https://script.google.com/macros/s/AKfycbz8a2ZZRC7msA4IsSePL9aGn1QmwiIa7DIWT4gL_r9J8EOqRa0KWLS-qVGXzMw48OI/exec";
+var PW=String.fromCharCode(55,48,48,52);
+var MSG_FS="Anti-cheating measures activated. You cannot continue the test until the teacher provides the password.";
+var MSG_TAB="You have exited this Quiz. Your quiz is now voided. If you think this is an error, let the teacher know, but there will be an investigation done.";
+
+function $(id){return document.getElementById(id);}
+function pad(n){return String(n).padStart(2,"0");}
+function hms(d){return pad(d.getHours())+":"+pad(d.getMinutes())+":"+pad(d.getSeconds());}
+function stamp(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+" "+hms(d);}
+
+/* ---------- blocking ---------- */
+["copy","cut","paste","contextmenu","dragstart"].forEach(function(ev){
+  document.addEventListener(ev,function(e){e.preventDefault();},true);
+});
+
+/* ---------- theme ---------- */
+var theme="dark";
+function applyTheme(){
+  document.documentElement.setAttribute("data-theme",theme);
+  $("themeBtn").textContent=theme==="dark"?"Light mode":"Dark mode";
+}
+$("themeBtn").addEventListener("click",function(){theme=theme==="dark"?"light":"dark";applyTheme();});
+applyTheme();
+
+/* ---------- page 1 ---------- */
+document.title=QUIZ_TITLE;
+$("title").textContent=QUIZ_TITLE;
+$("title2").textContent=QUIZ_TITLE;
+$("intro").textContent=DATA.intro;
+
+var student={firstName:"",surnames:"",group:""};
+var active=false,submitted=false;
+
+$("info").addEventListener("submit",function(e){
+  e.preventDefault();
+  var ids=["fn","sn","gr"],ok=true;
+  ids.forEach(function(id){
+    var el=$(id);el.value=el.value.replace(/\s+/g," ").trim();
+    if(!el.value){ok=false;}
+  });
+  if(!ok){$("info").reportValidity();return;}
+  student.firstName=$("fn").value;student.surnames=$("sn").value;student.group=$("gr").value;
+  $("page1").hidden=true;$("page2").hidden=false;window.scrollTo(0,0);
+  active=true;
+  try{var p=document.documentElement.requestFullscreen();if(p&&p.catch)p.catch(function(){});}catch(x){}
+});
+
+/* ---------- page 2 build ---------- */
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+var displayed=[];
+var pos=0;
+var exam=$("exam");
+
+function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e;}
+
+DATA.parts.forEach(function(part){
+  exam.appendChild(el("h2",null,part.title));
+  part.directions.forEach(function(d){exam.appendChild(el("p","dir",d));});
+  shuffle(part.questions).forEach(function(q){
+    pos++;
+    var box=el("div","q");
+    var t=el("p","qt");
+    t.appendChild(el("span","num",pos+"."));
+    var ctrl=null;
+    if(part.type==="match"){
+      var stem=q.text.replace(/^_+\s*/,"");
+      var wrap=el("div","inl");
+      wrap.appendChild(el("span","num",pos+"."));
+      var sel=document.createElement("select");sel.name=q.id;
+      var o0=document.createElement("option");o0.value="";o0.textContent="—";sel.appendChild(o0);
+      q.options.forEach(function(o){var op=document.createElement("option");op.value=o;op.textContent=o;sel.appendChild(op);});
+      wrap.appendChild(sel);wrap.appendChild(el("span",null,stem));
+      box.appendChild(wrap);ctrl=sel;
+    }else if(part.type==="short"){
+      var stem2=q.text.replace(/\s*_+\s*$/,"");
+      var wrap2=el("div","inl");
+      wrap2.appendChild(el("span","num",pos+"."));
+      wrap2.appendChild(el("span",null,stem2));
+      var inp=document.createElement("input");inp.type="text";inp.name=q.id;inp.autocomplete="off";inp.spellcheck=false;inp.maxLength=60;
+      wrap2.appendChild(inp);box.appendChild(wrap2);ctrl=inp;
+    }else{
+      t.appendChild(document.createTextNode(q.text));
+      box.appendChild(t);
+      var ol=el("div","opts"+(part.type==="error"?" inline":""));
+      q.options.forEach(function(o){
+        var lb=document.createElement("label");
+        var r=document.createElement("input");r.type="radio";r.name=q.id;r.value=o;
+        lb.appendChild(r);lb.appendChild(document.createTextNode(o));ol.appendChild(lb);
+      });
+      box.appendChild(ol);
+    }
+    exam.appendChild(box);
+    displayed.push({q:q,pos:pos,type:part.type,box:box});
+  });
+});
+
+function getAnswer(d){
+  var q=d.q;
+  if(d.type==="short"){
+    return d.box.querySelector("input[type=text]").value.replace(/\s+/g," ").trim();
+  }
+  if(d.type==="match"){return d.box.querySelector("select").value;}
+  var r=d.box.querySelector("input[type=radio]:checked");
+  return r?r.value:"";
+}
+
+/* ---------- events ---------- */
+var fsExits=[],tabAways=[],pwEvents=[];
+var awayStart=null,overlayKind=null;
+
+function showOverlay(kind){
+  overlayKind=kind;
+  $("omsg").textContent=kind==="tab"?MSG_TAB:MSG_FS;
+  $("opw").value="";
+  $("overlay").classList.add("on");
+  $("app").setAttribute("inert","");
+  setTimeout(function(){$("opw").focus();},30);
+}
+function hideOverlay(){
+  overlayKind=null;
+  $("overlay").classList.remove("on");
+  $("app").removeAttribute("inert");
+}
+function tryPassword(){
+  var v=$("opw").value;
+  if(!v){$("opw").classList.add("bad");return;}
+  var ok=(v===PW);
+  pwEvents.push({type:overlayKind==="tab"?"tabAway":"fullscreen",time:hms(new Date()),correct:ok});
+  if(ok){
+    $("opw").classList.remove("bad");
+    hideOverlay();
+    try{var p=document.documentElement.requestFullscreen();if(p&&p.catch)p.catch(function(){});}catch(x){}
+  }else{
+    $("opw").value="";$("opw").classList.add("bad");
+    var b=$("obox");b.classList.remove("shake");void b.offsetWidth;b.classList.add("shake");
+  }
+}
+$("obtn").addEventListener("click",tryPassword);
+$("opw").addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();tryPassword();}});
+$("opw").addEventListener("input",function(){$("opw").classList.remove("bad");});
+
+function startAway(){
+  if(!active||submitted||awayStart)return;
+  awayStart=new Date();
+}
+function checkReturn(){
+  if(!awayStart||submitted)return;
+  if(document.hidden||!document.hasFocus())return;
+  var now=new Date();
+  tabAways.push({timeLeft:hms(awayStart),timeReturned:hms(now),secondsAway:Math.round((now-awayStart)/1000)});
+  awayStart=null;
+  showOverlay("tab");
+}
+document.addEventListener("visibilitychange",function(){if(document.hidden)startAway();else checkReturn();});
+window.addEventListener("blur",function(){setTimeout(function(){if(!document.hasFocus())startAway();},50);});
+window.addEventListener("focus",checkReturn);
+
+document.addEventListener("fullscreenchange",function(){
+  if(!active||submitted||document.fullscreenElement)return;
+  var t=new Date();
+  setTimeout(function(){
+    if(!active||submitted||document.fullscreenElement)return;
+    if(awayStart||document.hidden||!document.hasFocus())return;
+    fsExits.push(hms(t));
+    if(overlayKind!=="tab")showOverlay("fs");
+  },150);
+});
+
+/* ---------- submission ---------- */
+function buildSubmission(){
+  var answers={},qs=[];
+  displayed.forEach(function(d){
+    var a=getAnswer(d);
+    answers[d.q.id]=a;
+    qs.push({id:d.q.id,position:d.pos,text:d.q.text,options:d.q.options.slice(),answer:a});
+  });
+  var now=new Date();
+  return {
+    quizTitle:QUIZ_TITLE,quizVersion:QUIZ_VERSION,
+    firstName:student.firstName,surnames:student.surnames,
+    fullName:(student.firstName+" "+student.surnames).trim(),group:student.group,
+    submissionTimestamp:stamp(now),theme:theme,
+    fullscreenExitCount:fsExits.length,fullscreenExits:fsExits.slice(),
+    tabAwayCount:tabAways.length,tabAways:tabAways.slice(),
+    passwordEvents:pwEvents.slice(),
+    answers:answers,questions:qs
+  };
+}
+var btn=$("submitBtn");
+btn.addEventListener("click",function(){
+  if(submitted||btn.disabled)return;
+  btn.disabled=true;btn.textContent="Submitting...";$("err").textContent="";
+  var body=new URLSearchParams();
+  body.set("submission",JSON.stringify(buildSubmission()));
+  fetch(ENDPOINT,{method:"POST",mode:"no-cors",body:body}).then(function(){
+    submitted=true;btn.textContent="Submitted";
+    exam.querySelectorAll("input,select").forEach(function(c){c.disabled=true;});
+    try{if(document.fullscreenElement)document.exitFullscreen();}catch(x){}
+  }).catch(function(){
+    btn.disabled=false;btn.textContent="Submit quiz";$("err").textContent="Submission failed. Please try again.";
+  });
+});
+})();
+</script>
+</body>
+</html>
